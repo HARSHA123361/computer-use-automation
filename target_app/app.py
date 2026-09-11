@@ -34,6 +34,7 @@ LOGIN_PAGE = """
 <body bgcolor="#e8e8e8">
 <center>
 <br><br>
+<form method="post" action="/login">
 <table width="400" border="2" cellpadding="8" cellspacing="0" bgcolor="#ffffff">
 <tr bgcolor="#003366"><td colspan="2" align="center">
 <font color="white" size="4"><b>First Valley Credit Union</b></font><br>
@@ -47,35 +48,19 @@ LOGIN_PAGE = """
 <tr><td colspan="2">&nbsp;</td></tr>
 <tr>
 <td align="right"><b>Username:</b></td>
-<td><input type="text" name="username" form="loginform" size="20"></td>
-</tr>
-<tr>
-<td align="right"><b>Password:</b></td>
-<td><input type="password" name="password" form="loginform" size="20"></td>
-</tr>
-<tr><td colspan="2">&nbsp;</td></tr>
-<tr><td colspan="2" align="center">
-<form id="loginform" method="post" action="/login">
-<input type="hidden" name="username" value="">
-<input type="hidden" name="password" value="">
-<input type="submit" value="  Log In  ">
-</form>
-<form method="post" action="/login">
-<table width="300" border="0">
-<tr>
-<td align="right"><b>Username:</b></td>
 <td><input type="text" name="username" size="20"></td>
 </tr>
 <tr>
 <td align="right"><b>Password:</b></td>
 <td><input type="password" name="password" size="20"></td>
 </tr>
-<tr><td colspan="2" align="center"><input type="submit" value="  Log In  "></td></tr>
-</table>
-</form>
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr><td colspan="2" align="center">
+<input type="submit" value="  Log In  ">
 </td></tr>
 <tr><td colspan="2">&nbsp;</td></tr>
 </table>
+</form>
 </center>
 </body>
 </html>
