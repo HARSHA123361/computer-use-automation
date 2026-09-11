@@ -1,0 +1,278 @@
+{
+  "id": "a1b2c3d4-0000-0000-0000-111122223333",
+  "version": "1.0.0",
+  "status": "draft",
+  "name": "member_balance_lookup",
+  "description": "Log in to the staff portal and look up a member by ID to read their current account balance and account status.",
+  "target_url": "http://127.0.0.1:5001/",
+  "created_at": "2026-09-11T03:43:14.143122+00:00",
+  "recorded_by": "discovery-agent",
+  "input_params": [
+    {
+      "name": "member_id",
+      "type": "string",
+      "description": "The credit union member ID to look up.",
+      "required": true,
+      "example": "10001"
+    }
+  ],
+  "output_fields": [
+    {
+      "name": "balance",
+      "type": "string",
+      "description": "The member's current account balance as displayed on the detail page.",
+      "selector": null
+    },
+    {
+      "name": "account_status",
+      "type": "string",
+      "description": "Account status: Active, Frozen, Closed, etc.",
+      "selector": null
+    }
+  ],
+  "steps": [
+    {
+      "action": "navigate",
+      "locator": null,
+      "value": "http://127.0.0.1:5001/",
+      "param_ref": null,
+      "timeout_ms": 5000,
+      "risk": "safe",
+      "description": "Navigate to the staff portal login page.",
+      "checkpoint_after": null
+    },
+    {
+      "action": "type_text",
+      "locator": {
+        "strategy": "xpath",
+        "value": "(//input[@name='username'])[last()]",
+        "fallbacks": [
+          {
+            "strategy": "css",
+            "value": "input[name='username']",
+            "fallbacks": [],
+            "description": "Username by name attr"
+          }
+        ],
+        "description": "Username input field (last form on page — the real login form)"
+      },
+      "value": "staff",
+      "param_ref": null,
+      "timeout_ms": 5000,
+      "risk": "safe",
+      "description": "Enter staff username.",
+      "checkpoint_after": null
+    },
+    {
+      "action": "type_text",
+      "locator": {
+        "strategy": "xpath",
+        "value": "(//input[@name='password'])[last()]",
+        "fallbacks": [
+          {
+            "strategy": "css",
+            "value": "input[name='password']",
+            "fallbacks": [],
+            "description": "Password by name attr"
+          }
+        ],
+        "description": "Password input field"
+      },
+      "value": "demo1234",
+      "param_ref": null,
+      "timeout_ms": 5000,
+      "risk": "safe",
+      "description": "Enter staff password.",
+      "checkpoint_after": null
+    },
+    {
+      "action": "click",
+      "locator": {
+        "strategy": "xpath",
+        "value": "(//input[@type='submit'])[last()]",
+        "fallbacks": [
+          {
+            "strategy": "css",
+            "value": "input[type='submit']",
+            "fallbacks": [],
+            "description": "Submit button by type"
+          }
+        ],
+        "description": "Login submit button"
+      },
+      "value": null,
+      "param_ref": null,
+      "timeout_ms": 5000,
+      "risk": "safe",
+      "description": "Click the Log In button.",
+      "checkpoint_after": null
+    },
+    {
+      "action": "wait_for",
+      "locator": {
+        "strategy": "xpath",
+        "value": "//input[@name='member_id']",
+        "fallbacks": [
+          {
+            "strategy": "text",
+            "value": "Member Account Search",
+            "fallbacks": [],
+            "description": "Search page heading text"
+          }
+        ],
+        "description": "Member ID search input — confirms we are on the search page"
+      },
+      "value": null,
+      "param_ref": null,
+      "timeout_ms": 8000,
+      "risk": "safe",
+      "description": "Wait for the Member Search page to load.",
+      "checkpoint_after": null
+    },
+    {
+      "action": "type_text",
+      "locator": {
+        "strategy": "xpath",
+        "value": "//input[@name='member_id']",
+        "fallbacks": [
+          {
+            "strategy": "css",
+            "value": "input[name='member_id']",
+            "fallbacks": [],
+            "description": "Member ID input by name"
+          }
+        ],
+        "description": "Member ID search input"
+      },
+      "value": null,
+      "param_ref": "member_id",
+      "timeout_ms": 5000,
+      "risk": "safe",
+      "description": "Type the member ID into the search field.",
+      "checkpoint_after": null
+    },
+    {
+      "action": "click",
+      "locator": {
+        "strategy": "xpath",
+        "value": "//input[@type='submit']",
+        "fallbacks": [
+          {
+            "strategy": "css",
+            "value": "input[type='submit']",
+            "fallbacks": [],
+            "description": "Submit button"
+          }
+        ],
+        "description": "Search submit button"
+      },
+      "value": null,
+      "param_ref": null,
+      "timeout_ms": 5000,
+      "risk": "safe",
+      "description": "Click the Search button.",
+      "checkpoint_after": null
+    },
+    {
+      "action": "wait_for",
+      "locator": {
+        "strategy": "xpath",
+        "value": "//td[contains(text(),'Current Balance')]",
+        "fallbacks": [
+          {
+            "strategy": "text",
+            "value": "Current Balance",
+            "fallbacks": [],
+            "description": "Balance label by text"
+          }
+        ],
+        "description": "Balance label on member detail page"
+      },
+      "value": null,
+      "param_ref": null,
+      "timeout_ms": 8000,
+      "risk": "safe",
+      "description": "Wait for the member detail page to load.",
+      "checkpoint_after": null
+    },
+    {
+      "action": "extract",
+      "locator": {
+        "strategy": "xpath",
+        "value": "//td[contains(text(),'Current Balance')]/following-sibling::td",
+        "fallbacks": [
+          {
+            "strategy": "xpath",
+            "value": "//b[contains(text(),'$')]/..",
+            "fallbacks": [],
+            "description": "Any bold dollar amount on the page"
+          }
+        ],
+        "description": "Balance value cell — the cell immediately after the Balance label"
+      },
+      "value": "balance",
+      "param_ref": null,
+      "timeout_ms": 5000,
+      "risk": "safe",
+      "description": "Extract the current account balance.",
+      "checkpoint_after": null
+    },
+    {
+      "action": "extract",
+      "locator": {
+        "strategy": "xpath",
+        "value": "//td[contains(text(),'Account Status')]/following-sibling::td",
+        "fallbacks": [
+          {
+            "strategy": "text",
+            "value": "Active",
+            "fallbacks": [],
+            "description": "Status text fallback"
+          }
+        ],
+        "description": "Account status value cell"
+      },
+      "value": "account_status",
+      "param_ref": null,
+      "timeout_ms": 5000,
+      "risk": "safe",
+      "description": "Extract the account status.",
+      "checkpoint_after": null
+    }
+  ],
+  "success_checkpoint": {
+    "description": "Member detail page is showing with a visible Current Balance row.",
+    "locator": {
+      "strategy": "xpath",
+      "value": "//td[contains(text(),'Current Balance')]",
+      "fallbacks": [
+        {
+          "strategy": "text",
+          "value": "Current Balance",
+          "fallbacks": [],
+          "description": "Text fallback"
+        }
+      ],
+      "description": "Balance label on detail page"
+    },
+    "expected_text": "Current Balance",
+    "expected_url_contains": "/member/"
+  },
+  "known_business_outcomes": [
+    {
+      "code": "MEMBER_NOT_FOUND",
+      "description": "The member ID does not exist in the system.",
+      "detection": "no member found"
+    },
+    {
+      "code": "ACCOUNT_FROZEN",
+      "description": "The account is frozen.",
+      "detection": "frozen"
+    },
+    {
+      "code": "SESSION_EXPIRED",
+      "description": "The staff session has expired.",
+      "detection": "session expired"
+    }
+  ]
+}
