@@ -7,6 +7,7 @@ app.secret_key = "dev-secret-key"
 MEMBERS = {
     "10001": {
         "name": "James Harrington",
+        "account_number": "ACC-0010-4821",
         "type": "Checking",
         "balance": "$4,821.50",
         "status": "Active",
@@ -14,6 +15,7 @@ MEMBERS = {
     },
     "10002": {
         "name": "Patricia Nguyen",
+        "account_number": "ACC-0010-1234",
         "type": "Savings",
         "balance": "$12,340.00",
         "status": "Active",
@@ -21,6 +23,7 @@ MEMBERS = {
     },
     "10003": {
         "name": "Robert Chen",
+        "account_number": "ACC-0010-9807",
         "type": "Savings",
         "balance": "$980.75",
         "status": "Frozen",
@@ -190,6 +193,7 @@ DETAIL_PAGE = """
         <table class="detail-table">
           <tr><td>Member ID</td><td>{{ member.id }}</td></tr>
           <tr><td>Full Name</td><td>{{ member.name }}</td></tr>
+          <tr><td>Account Number</td><td>{{ member.account_number }}</td></tr>
           <tr><td>Account Type</td><td>{{ member.type }}</td></tr>
           <tr><td>Current Balance</td><td><strong>{{ member.balance }}</strong></td></tr>
           <tr><td>Account Status</td><td>{{ member.status }}</td></tr>
